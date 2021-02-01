@@ -67,7 +67,33 @@ class MemberRepositoryTest {
 
         long deleteDcount = memberRepository.count();
         assertThat(deleteDcount).isEqualTo(0);
-
     }
+
+    @Test
+    public void findByUsernameAndAgeGreaterThen() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("AAA", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsernameAndAgeGreaterThan("AAA", 15);
+        assertThat(result.get(0).getUsername()).isEqualTo("AAA");
+        assertThat(result.get(0).getAge2()).isEqualTo(20);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+
+    @Test
+    public void findHelloBy() {
+
+        // 쿼리확인하면 where 없이 모든 멤버 조회해옴
+        List<Member> helloBy = memberRepository.findHelloBy();
+
+        // from member member0_ limit 3
+        List<Member> helloTop3By = memberRepository.findTop3HelloBy();
+    }
+
+
+
 
 }
