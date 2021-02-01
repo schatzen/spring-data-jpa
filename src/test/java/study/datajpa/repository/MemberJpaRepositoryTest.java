@@ -51,19 +51,19 @@ public class MemberJpaRepositoryTest {
 
         findMember1.setUsername("member!!!!");
 
-//        // 리스트 조회 검증
-//        List<Member> all = memberJpaRepository.findAll();
-//        assertThat(all.size()).isEqualTo(2);
-//
-//        long count = memberJpaRepository.count();
-//        assertThat(count).isEqualTo(2);
-//
-//        // 삭제 검증
-//        memberJpaRepository.delete(member1);
-//        memberJpaRepository.delete(member2);
-//
-//        long deleteDcount = memberJpaRepository.count();
-//        assertThat(deleteDcount).isEqualTo(0);
+        // 리스트 조회 검증
+        List<Member> all = memberJpaRepository.findAll();
+        assertThat(all.size()).isEqualTo(2);
+
+        long count = memberJpaRepository.count();
+        assertThat(count).isEqualTo(2);
+
+        // 삭제 검증
+        memberJpaRepository.delete(member1);
+        memberJpaRepository.delete(member2);
+
+        long deleteDcount = memberJpaRepository.count();
+        assertThat(deleteDcount).isEqualTo(0);
 
     }
 
