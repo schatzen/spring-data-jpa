@@ -7,6 +7,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.entity.Member;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +20,9 @@ class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void testMember() {
@@ -78,7 +83,7 @@ class MemberRepositoryTest {
 
         List<Member> result = memberRepository.findByUsernameAndAgeGreaterThan("AAA", 15);
         assertThat(result.get(0).getUsername()).isEqualTo("AAA");
-        assertThat(result.get(0).getAge2()).isEqualTo(20);
+        assertThat(result.get(0).getAge()).isEqualTo(20);
         assertThat(result.size()).isEqualTo(1);
     }
 
@@ -91,6 +96,27 @@ class MemberRepositoryTest {
 
         // from member member0_ limit 3
         List<Member> helloTop3By = memberRepository.findTop3HelloBy();
+    }
+
+    @Test
+    public void JpaEventEntity() throws Exception {
+        // given
+        Member member = new Member("member1");
+        memberRepository.save(member); // @prePersist 발생
+
+        Thread.sleep(100);
+        member.setUsername("member2");
+
+        em.flush(); // @PreUpdate 발생
+        em.clear();
+
+        // when
+        Member findMember = memberRepository.findById(member.getId()).get();
+
+        // then
+        System.out.println("findMember CreatedDate = " + findMember.getCreatedDate());
+        System.out.println("findMember UpdatedDate = " + findMember.getUpdatedDate());
+
     }
 
 

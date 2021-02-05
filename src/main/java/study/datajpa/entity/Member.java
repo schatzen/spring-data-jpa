@@ -13,7 +13,7 @@ import javax.persistence.*;
 //ToString시 foreignkey 설정되어 있는 객체는 x. (Team x)
 // 연관관계를 타서 또 출력하게 되고.. 무한루프 가능성때문
 @ToString(of = {"id", "username", "age"})
-public class Member {
+public class Member extends BaseEntity{
 
     // GeneratedValue 설정시 , PK값을 JPA가 알아서 부여
     @Id
